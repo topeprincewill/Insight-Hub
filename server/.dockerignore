@@ -1,0 +1,4 @@
+//this is for github, we want to ignore certain files, we don't want to expose certain environment variables to the public like bite base url
+//and mongodb link 
+.env
+node_modules
