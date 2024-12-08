@@ -9,7 +9,7 @@ router.get("/products", async (req, res) => {
     const products = await Product.find();
     res.status(200).json(products);   //we wiil return a success result via a 200 status once we successsfully find our product
    } catch(error) {
-      res.status(404).json({message: error.message});
+      res.status(404).json({message: error.message + "This is america"});
    }
 });
 

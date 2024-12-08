@@ -4,7 +4,7 @@ import FlexBetween from '@/components/FlexBetween';
 import { useGetKpisQuery, useGetProductsQuery, useGetTransactionsQuery } from '@/state/api';
 import { Box, Typography, useTheme } from '@mui/material';
 import { DataGrid, GridCellParams } from '@mui/x-data-grid';
-import React, { useMemo } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { Cell, Pie, PieChart } from 'recharts';
 
 type Props = {}
@@ -15,6 +15,27 @@ const Row3 = (props: Props) => {
     const { data: kpiData } = useGetKpisQuery();
     const { data: productData } = useGetProductsQuery();
     const { data: transactionData } = useGetTransactionsQuery();
+    const [derivedData, setDerivedData] = useState<any>(null);
+
+ 
+ 
+    useEffect(() => {
+  const fetchData = async () => {
+    try {
+      const response = await fetch('http://localhost:1337/get-values');
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const data = await response.json();
+      console.log("Fetched data:", data);
+      setDerivedData(data);
+    } catch (error) {
+      console.error("Failed to fetch data:", error);
+    }
+  };
+  fetchData();
+}, []);
+  
 
     const pieChartData = useMemo(() => {
       if (kpiData) {
@@ -81,6 +102,27 @@ const Row3 = (props: Props) => {
         renderCell: (params: GridCellParams) => (params.value as Array<string>).length,
        },
     ]
+
+
+    const getExpenseRatioInsight = (expenseRatio: number) => {
+      if (expenseRatio > 2.0) {
+        return 'The expense ratio is high, indicating that a significant portion of your revenue is allocated to expenses. Consider optimizing costs or increasing revenue streams.';
+      } else if (expenseRatio > 1.0) {
+        return 'The expense ratio is moderate, showing a balanced approach to managing expenses relative to revenue.';
+      } else {
+        return 'The expense ratio is low, suggesting efficient expense management or underutilization of resources. Ensure you are investing enough in growth opportunities.';
+      }
+    };
+  
+    const getCorrelationInsight = (correlationCoefficient: number) => {
+      if (correlationCoefficient > 0.7) {
+        return 'There is a strong positive correlation, indicating that changes in one variable are closely associated with changes in the other.';
+      } else if (correlationCoefficient < -0.7) {
+        return 'There is a strong negative correlation, meaning one variable tends to decrease as the other increases.';
+      } else {
+        return 'The correlation is weak or negligible, suggesting little to no direct relationship between the variables.';
+      }
+    };
 
   return (
     <>
@@ -152,60 +194,22 @@ const Row3 = (props: Props) => {
        />
       </Box>
     </DashBoardBox>
-    <DashBoardBox  gridArea="i">
-        <BoxHeader title="Expenses Breakdown By Category" sideText="+4%"/>
-        <FlexBetween mt="0.5rem" gap="0.5rem" p="0 1rem" textAlign="center">
-          {pieChartData?.map((data, i) => (
-            <Box key={`${data[0].name}-${i}`}>
-            <PieChart 
-               width={110} 
-               height={75}
-               >
-          <Pie
-            stroke="none"
-            data={data}
-            innerRadius={18}
-            outerRadius={35}
-            paddingAngle={5}
-            dataKey="value"
-          >
-            {data.map((entry, index) => (
-              <Cell
-              key={`cell-${index}`} 
-              fill={pieColors[index]} />
-            ))}
-               </Pie>
-                </PieChart>
-            <Typography margin="4% 2rem" variant="h5"> { data[0].name }</Typography>
-          </Box>
-          ))}
-          
-        </FlexBetween>
-        
-
-    </DashBoardBox>
+    
+    
     <DashBoardBox  gridArea="j">
     <BoxHeader 
     title="Overall Summary and Explanation Data" 
-    sideText="+15%"/>
-      <Box
-        height="15px"
-        margin="1.25rem 1rem 0.4rem 1rem"
-        bgcolor={palette.primary[800]}
-        borderRadius="1rem"
-        >
-        <Box
-          height="15px"
-          bgcolor={palette.primary[600]}
-          borderRadius="1rem"
-          width="40%"
-        ></Box>
-        </Box>
-         <Typography margin="0 1rem" variant="h6">
-         Orci aliquam enim vel diam. Venenatis euismod id donec mus lorem etiam
-          ullamcorper odio sed. Ipsum non sed gravida etiam urna egestas
-          molestie volutpat et. Malesuada quis pretium aliquet lacinia ornare
-          sed. In volutpat.
+    sideText=""/>
+         <Typography margin="0 1rem" variant="h5" justify-content="center">
+          
+         {derivedData ? (
+            <>
+              <p>{getExpenseRatioInsight(derivedData.expenseRatio)}</p>
+              <p>{getCorrelationInsight(derivedData.correlationCoefficient)}</p>
+            </>
+          ) : (
+            'Loading summary data...'
+          )}
           </Typography> 
     </DashBoardBox>
     </>

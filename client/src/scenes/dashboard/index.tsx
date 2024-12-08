@@ -10,8 +10,8 @@ const gridTemplateLargeScreens = `
    "a b f"
    "d e f"
    "d e f"
-   "d h i"
-   "g h i"
+   "d h j"
+   "g h j"
    "g h j"
    "g h j"
  `;
@@ -42,8 +42,8 @@ const gridTemplateSmallScreens = `
   "h"
   "h"
   "h"
-  "i"
-  "i"
+  "j"
+  "j"
   "j"
   "j"
 `;

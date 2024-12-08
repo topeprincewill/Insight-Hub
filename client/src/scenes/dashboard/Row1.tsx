@@ -43,14 +43,55 @@ const Row1 = () => {
     return (
       data &&
       data[0].monthlyData.map(({ month, revenue, expenses }) => {
+        
+        const profit = (revenue - expenses).toFixed(2);
+        const profitMargin = ((profit / revenue) * 100).toFixed(2);
         return {
           name: month.substring(0,3),
           revenue: revenue,
-          profit: (revenue  - expenses).toFixed(2),
+          profit: profit,
+          profitMargin: profitMargin,
           };
       })
     );
   }, [data]);
+
+  const trend = useMemo(() => {
+    if (!revenueProfit) return '';
+    
+    const initialMonth = revenueProfit[0];
+    const lastMonth = revenueProfit[revenueProfit.length - 1];
+
+    if (parseFloat(lastMonth.profitMargin) > parseFloat(initialMonth.profitMargin)) {
+        return "Profit margin has improved";
+    } else {
+        return "Profit margin has decreased";
+    }
+}, [revenueProfit]);
+
+
+const avgRevenueGrowthRate = useMemo(() => {
+  if (!revenue || revenue.length < 2) return 0;
+
+  let totalGrowthRate = 0;
+  let count = 0;
+
+  for (let i = 1; i < revenue.length; i++) {
+    const prevRevenue = revenue[i - 1].revenue;
+    const currentRevenue = revenue[i].revenue;
+
+    // Avoid division by zero
+    if (prevRevenue !== 0) {
+      const growthRate = ((currentRevenue - prevRevenue) / prevRevenue) * 100;
+      totalGrowthRate += growthRate;
+      count++;
+    }
+  }
+
+  // Calculate the average growth rate
+  const averageGrowthRate = totalGrowthRate / count;
+  return averageGrowthRate.toFixed(2); // Keep two decimal points
+}, [revenue]);
 
 
   return (
@@ -59,7 +100,7 @@ const Row1 = () => {
     <BoxHeader
        title="Revenue and Expenses"
        subtitle="top line represents revenue, bottom line represents expenses"
-       sideText="+4%"
+       sideText={`Avg Profit Margin: ${revenueProfit && (revenueProfit.reduce((acc, curr) => acc + parseFloat(curr.profitMargin), 0) / revenueProfit.length).toFixed(2)}%`}
        /> 
     <ResponsiveContainer width="100%" height="100%">
         <AreaChart
@@ -135,7 +176,7 @@ const Row1 = () => {
     <BoxHeader
        title="Profit and Revenue"
        subtitle="top line represents revenue, bottom line represents expenses"
-       sideText="+4%"
+       sideText={trend}
        /> 
     <ResponsiveContainer width="100%" height="100%">
         <LineChart
@@ -194,7 +235,7 @@ const Row1 = () => {
     <BoxHeader
        title="Revenue Month by Month"
        subtitle="graph representing the revenue month by month"
-       sideText="+4%"
+       sideText={`Avg Growth Rate: ${avgRevenueGrowthRate}%`}
        /> 
     <ResponsiveContainer width="100%" height="100%">
         <BarChart

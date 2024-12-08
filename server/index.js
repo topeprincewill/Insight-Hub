@@ -5,6 +5,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import helmet from "helmet";
 import morgan from "morgan";
+import fs from "fs";
 import kpiRoutes from "./routes/kpi.js"
 import productRoutes from "./routes/product.js";
 import transactionRoutes from "./routes/transaction.js";
@@ -30,7 +31,41 @@ app.use("/kpi", kpiRoutes);   //
 app.use("/product", productRoutes);
 app.use("/transaction", transactionRoutes);
  
+// POST endpoint to save data to a JSON file
+app.post('/saveMetrics', (req, res) => {
+    const { expenseRatio, correlationCoefficient } = req.body;
+  
+    // Validate that the required fields are provided
+    if (!expenseRatio || !correlationCoefficient) {
+      return res.status(400).json({ error: 'Both expenseRatio and correlationCoefficient are required.' });
+    }
+  
+    // Prepare data to save to the JSON file
+    const jsonData = {
+      metrics: {
+        expenseRatio,
+        correlationCoefficient,
+      },
+    };
+  
+    // Write the data to a JSON file (overwrites the file)
+    fs.writeFile('metrics.json', JSON.stringify(jsonData, null, 2), 'utf8', (err) => {
+      if (err) {
+        return res.status(500).json({ error: 'Failed to write to the file' });
+      }
+      res.json({ message: 'Metrics saved successfully' });
+    });
+  });
 
+
+  app.get('/get-values', (req, res) => {
+    try {
+      const data = fs.readFileSync('metrics.json');
+      res.status(200).json(JSON.parse(data));
+    } catch (error) {
+      res.status(500).json({ error: 'Unable to read values' });
+    }
+  });
 
 /* MONGOOSE SETUP */
 const PORT = process.env.PORT || 9000; //the 9000 port is a backup for our original port number of 1337

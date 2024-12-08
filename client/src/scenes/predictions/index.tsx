@@ -4,7 +4,7 @@ import { useGetKpisQuery } from '@/state/api';
 import DashBoardBox from '@/components/DashBoardBox';
 import FlexBetween from '@/components/FlexBetween';
 import { CartesianGrid, Label, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
-import regression, { Datapoint } from "regression";
+import regression, { DataPoint } from "regression";
 
 
 
