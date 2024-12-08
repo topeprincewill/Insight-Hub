@@ -84,6 +84,7 @@ Start the backend server:
       The backend will start on http://localhost:5000.
 
 **Frontend Setup**
+
 Navigate to the frontend directory:
 
 
