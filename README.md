@@ -80,8 +80,7 @@ Add the following variables:
 
 Start the backend server:
 
-      _Copy code_
-      npm run dev
+    npm run dev
       The backend will start on http://localhost:5000.
 
 **Frontend Setup**
@@ -113,5 +112,3 @@ Access the application: Open your browser and navigate to http://localhost:3000.
   Enhanced Data Sources: Add the ability to pull live data from APIs or cloud databases.
 
 Feel free to contribute or provide feedback to help improve this project!
-
-Let me know if you'd like further customization!
