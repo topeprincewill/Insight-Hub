@@ -1,4 +1,5 @@
 **InsightHub**
+
 InsightHub is a data visualization dashboard application designed to help users extract meaningful insights from financial datasets. The app features interactive graphs, 
 predictive analytics using regression models, and dynamic data visualization.
 
@@ -20,6 +21,7 @@ predictive analytics using regression models, and dynamic data visualization.
 - User-friendly and responsive UI designed with Material-UI.
   
 **Technologies Used**
+
 **Frontend:**
 - React.js with TypeScript
 - Material-UI (MUI) for styling
@@ -34,6 +36,7 @@ predictive analytics using regression models, and dynamic data visualization.
 - Sequelize as an ORM for database interaction
   
 **Getting Started**
+
 **Prerequisites**
 
 Ensure you have the following installed on your system:
