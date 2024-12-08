@@ -101,11 +101,14 @@ Start the frontend development server:
     
 Access the application: Open your browser and navigate to http://localhost:3000.
 
-Future Directions
-User Profiles: Add a feature for creating and managing personalized user accounts.
-Advanced Machine Learning Models: Incorporate additional ML algorithms to enhance predictive analytics.
-Generative AI Integration: Use AI to generate personalized insights and recommendations based on user-specific data.
-Enhanced Data Sources: Add the ability to pull live data from APIs or cloud databases.
+**Future Directions**
+
+- User Profiles: Add a feature for creating and managing personalized user accounts.
+  
+- Advanced Machine Learning Models: Incorporate additional ML algorithms to enhance predictive analytics.
+  
+- Generative AI Integration: Use AI to generate personalized insights and recommendations based on user-specific data.
+  Enhanced Data Sources: Add the ability to pull live data from APIs or cloud databases.
 
 Feel free to contribute or provide feedback to help improve this project!
 
