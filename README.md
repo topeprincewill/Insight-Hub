@@ -3,7 +3,8 @@
 InsightHub is a data visualization dashboard application designed to help users extract meaningful insights from financial datasets. The app features interactive graphs, 
 predictive analytics using regression models, and dynamic data visualization.
 
-    - Table of Contents
+**Table of Contents**
+
     - Features
     - Technologies Used
     - Getting Started
